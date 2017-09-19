@@ -1,0 +1,17 @@
+{
+  "name": "audio-webpack-loader",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "aaron@stitchmedia.ca",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "concat-stream": "^1.6.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "loader-utils": "^1.1.0",
+    "through2": "^2.0.3"
+  }
+}
