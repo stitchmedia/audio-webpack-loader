@@ -6,6 +6,8 @@ var concat = require('concat-stream');
 module.exports = function(content) {
     const options = loaderUtils.getOptions(this);
 
+    const context = options.context || this.options.context;
+
     var outputPattern = options.name || "[name]-[hash].[ext]";
     var callback = this.async();
 
@@ -13,7 +15,7 @@ module.exports = function(content) {
     var makeOutput = (format, resolve)=>{
         // arrow functions to preserve "this"
         return concat((buf)=>{
-            var filename = loaderUtils.interpolateName(this, outputPattern.replace('[ext]', format), { content: buf});
+            var filename = loaderUtils.interpolateName(this, outputPattern.replace('[ext]', format), {context: context, content: buf});
             this.emitFile(filename, buf);
             var stringToReturn = "__webpack_public_path__ + " + JSON.stringify(filename);
             resolve(stringToReturn);
