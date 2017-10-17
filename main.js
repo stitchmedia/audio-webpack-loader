@@ -5,10 +5,11 @@ var concat = require('concat-stream');
 
 module.exports = function(content) {
     const options = loaderUtils.getOptions(this);
-
     const context = options.context || this.options.context;
-
     var outputPattern = options.name || "[name]-[hash].[ext]";
+
+    this.cacheable();
+
     var callback = this.async();
 
 // stream to buffer
@@ -28,9 +29,7 @@ module.exports = function(content) {
             input.end(content);
             input.isStream = true; // hack, but seems to work
             ffmpeg()
-              .on('error', function(err, stdout, stderr) {
-                    console.log('An error occurred: ' + err.message, err, stderr);
-              })
+              .on('error', reject)
               .input(input)
               .audioBitrate('128k')
               .audioFrequency(44100)
@@ -44,7 +43,11 @@ module.exports = function(content) {
     Promise.all([doFfmpeg('mp3'), doFfmpeg('ogg')]).then(outputs=>{
         var finaloutput = "module.exports = [" + outputs.join(',') + "];";
         callback(null, finaloutput);
+    }).catch(error=>{
+        callback(error);
     });
+
+    return;
 
 };
 
