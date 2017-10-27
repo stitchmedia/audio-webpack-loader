@@ -23,7 +23,7 @@ module.exports = function(content) {
         });
     }
 
-    var doFfmpeg = (format) => {
+    var doFfmpeg = (format, codec) => {
         return new Promise((resolve, reject)=>{
             var input = through2();
             input.end(content);
@@ -35,12 +35,17 @@ module.exports = function(content) {
               .audioFrequency(44100)
               .audioChannels(1)
               .format(format)
+              .audioCodec(codec)
               .output(makeOutput(format, resolve))
               .run();
           });
     }
 
-    Promise.all([doFfmpeg('mp3'), doFfmpeg('m4a'), doFfmpeg('ogg')]).then(outputs=>{
+    Promise.all([
+        doFfmpeg('mp3', 'libmp3lame'),
+        doFfmpeg('m4a', 'libfdk_aac'),
+        doFfmpeg('ogg', 'libvorbis')
+    ]).then(outputs=>{
         var finaloutput = "module.exports = [" + outputs.join(',') + "];";
         callback(null, finaloutput);
     }).catch(error=>{
