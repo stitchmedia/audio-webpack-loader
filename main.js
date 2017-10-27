@@ -40,7 +40,7 @@ module.exports = function(content) {
           });
     }
 
-    Promise.all([doFfmpeg('mp3'), doFfmpeg('ogg')]).then(outputs=>{
+    Promise.all([doFfmpeg('mp3'), doFfmpeg('m4a'), doFfmpeg('ogg')]).then(outputs=>{
         var finaloutput = "module.exports = [" + outputs.join(',') + "];";
         callback(null, finaloutput);
     }).catch(error=>{
