@@ -43,7 +43,7 @@ module.exports = function(content) {
 
     Promise.all([
         doFfmpeg('mp3', 'libmp3lame'),
-        doFfmpeg('m4a', 'libfdk_aac'),
+        doFfmpeg('m4a', 'aac'),
         doFfmpeg('ogg', 'libvorbis')
     ]).then(outputs=>{
         var finaloutput = "module.exports = [" + outputs.join(',') + "];";
