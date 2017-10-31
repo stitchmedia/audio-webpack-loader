@@ -16,7 +16,7 @@ module.exports = function(content) {
     var makeOutput = (format, resolve)=>{
         // arrow functions to preserve "this"
         return concat((buf)=>{
-            var filename = loaderUtils.interpolateName(this, outputPattern.replace('[ext]', format), {context: context, content: buf});
+            var filename = loaderUtils.interpolateName(this, outputPattern.replace('[ext]', format), {context: context, content: content});
             this.emitFile(filename, buf);
             var stringToReturn = "__webpack_public_path__ + " + JSON.stringify(filename);
             resolve(stringToReturn);
